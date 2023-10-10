@@ -7,33 +7,32 @@ using namespace std;
 
 int main()
 {
-	stats mystats;
 	float num1, num2, num3, num4;
-	
-	// take the user inputs
-	cout << "What is your first number: ";
+	stats mystats;
+
+	// Take user inputs and use setter functions to set the values
+	cout << "Enter the first number: ";
 	cin >> num1;
+	mystats.setnum1(num1);
 
-	cout << "What is your second number: ";
+	cout << "Enter the second number: ";
 	cin >> num2;
+	mystats.setnum2(num2);
 
-	cout << "What is your third number: ";
+	cout << "Enter the third number: ";
 	cin >> num3;
+	mystats.setnum3(num3);
 
-	cout << "What is your fourth number: ";
+	cout << "Enter the fourth number: ";
 	cin >> num4;
+	mystats.setnum4(num4);
 
-	// calls functioin from stats.cpp and outputs calculations to screen of the user input
-	float statsmean = mystats.mean(num1, num2, num3, num4);
+	// Calculate mean and population standard deviation using member functions
+	float statsmean = mystats.mean();
+	float populationStandardDev = mystats.populationStandardDeviation();
 
 	cout << "The mean of the 4 numbers is: " << statsmean << endl;
-
-
-	int size = sizeof(num1, num2, num3, num4) / 4;
-
-	float populationStandardDev = mystats.populationStandardDevUser(size, statsmean, num1, num2, num3, num4);
-	
-	cout << "The population standard deviation of the 4 numbers is: " << populationStandardDev;
+	cout << "The population standard deviation of the 4 numbers is: " << setprecision(5) << populationStandardDev << endl;
 	
 	// opens meanstd file to take file input
 	ifstream inFile;
@@ -50,11 +49,18 @@ int main()
 	// assigning file data to override the number identifiers
 		inFile >> num1 >> num2 >> num3 >> num4;
 
-	statsmean = mystats.mean(num1, num2, num3, num4);
+	stats filestats;
 
-	size = sizeof(num1, num2, num3, num4) / 4;
+	filestats.setnum1(num1);
+	filestats.setnum2(num2);
+	filestats.setnum3(num3);
+	filestats.setnum4(num4);
 
-	populationStandardDev = mystats.populationStandardDevUser(size, statsmean, num1, num2, num3, num4);
+	statsmean = filestats.mean();
+
+	int size = 4;
+
+	populationStandardDev = filestats.populationStandardDeviation();
 
 	// Outputting data to outMeanstd.dat file
 	ofstream outFile;
@@ -67,7 +73,7 @@ int main()
 			return 1;
 		}
 
-	outFile << "The mean of the file numbers is: " << statsmean << endl;
+	outFile << "The mean of the file numbers is: " << filestats.mean() << endl;
 
 	outFile << "The population standard deviation of the file numbers is: " << setprecision(5) << populationStandardDev << endl;
 
